@@ -1,0 +1,254 @@
+{
+  "schemaVersion": "1.0.0",
+  "app": {
+    "id": "com.example.app",
+    "name": "ExampleApp",
+    "platforms": ["ios", "android"],
+    "version": "2.3.0",
+    "buildNumber": 123
+  },
+  "environment": {
+    "current": "production",
+    "allowed": ["development", "staging", "production"]
+  },
+  "network": {
+    "api": {
+      "baseURL": "https://api.example.com/v1",
+      "timeoutMs": 15000,
+      "retry": {
+        "retries": 2,
+        "backoffMs": 500,
+        "maxBackoffMs": 2000,
+        "statusCodes": [408, 429, 500, 502, 503, 504]
+      },
+      "defaultHeaders": {
+        "Accept": "application/json"
+      },
+      "cache": {
+        "enabled": true,
+        "ttlSeconds": 300,
+        "maxEntries": 500
+      }
+    },
+    "websocket": {
+      "url": "wss://ws.example.com/socket",
+      "reconnectMs": 3000
+    },
+    "cdn": {
+      "baseURL": "https://cdn.example.com/assets"
+    }
+  },
+  "auth": {
+    "providers": [
+      {
+        "type": "oauth",
+        "name": "apple",
+        "clientId": "com.example.app.ios.signin"
+      },
+      {
+        "type": "oauth",
+        "name": "google",
+        "clientId": "123.apps.googleusercontent.com"
+      },
+      { "type": "passwordless", "method": "email_link" }
+    ],
+    "tokenTTLSeconds": 3600,
+    "refreshTokenTTLSeconds": 2592000,
+    "jwksUrl": "https://api.example.com/.well-known/jwks.json",
+    "scopes": ["openid", "profile", "email"],
+    "biometrics": { "enabled": true, "fallbackToPIN": true }
+  },
+  "features": {
+    "darkMode": { "enabled": true, "strategy": "user_pref" },
+    "inboxV2": {
+      "enabled": false,
+      "rollout": {
+        "percentage": 25,
+        "seed": "userId",
+        "countries": ["US", "GB"]
+      }
+    },
+    "referAFriend": { "enabled": true },
+    "aiAssistant": { "enabled": true, "minAppVersion": "2.0.0" }
+  },
+  "theme": {
+    "mode": "system",
+    "light": {
+      "colors": {
+        "background": "#FFFFFF",
+        "text": "#111827",
+        "primary": "#2563EB",
+        "success": "#10B981",
+        "warning": "#F59E0B",
+        "danger": "#EF4444"
+      },
+      "elevation": { "1": "rgba(0,0,0,0.02)", "2": "rgba(0,0,0,0.04)" }
+    },
+    "dark": {
+      "colors": {
+        "background": "#0B1020",
+        "text": "#E5E7EB",
+        "primary": "#60A5FA",
+        "success": "#34D399",
+        "warning": "#FBBF24",
+        "danger": "#F87171"
+      },
+      "elevation": {
+        "1": "rgba(255,255,255,0.02)",
+        "2": "rgba(255,255,255,0.04)"
+      }
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "scale": { "h1": 32, "h2": 24, "body": 16 }
+    }
+  },
+  "localization": {
+    "defaultLocale": "en-US",
+    "supportedLocales": ["en-US", "es-ES", "fr-FR"],
+    "dateFormat": "yyyy-MM-dd",
+    "rtl": ["ar", "he"],
+    "remoteTranslations": {
+      "enabled": true,
+      "url": "https://cdn.example.com/i18n/{locale}.json",
+      "ttlHours": 24
+    }
+  },
+  "notifications": {
+    "push": {
+      "enabled": true,
+      "ios": { "apnsTeamId": "ABCDE12345", "topic": "com.example.app" },
+      "android": { "fcmSenderId": "1234567890" },
+      "channels": [
+        { "id": "marketing", "name": "Marketing", "importance": "low" },
+        { "id": "system", "name": "System", "importance": "high" }
+      ],
+      "topics": { "news": true, "product": false }
+    },
+    "inApp": { "enabled": true, "maxPerSession": 2 }
+  },
+  "analytics": {
+    "enabled": true,
+    "providers": [
+      { "name": "segment", "writeKey": "SEGMENT_WRITE_KEY" },
+      { "name": "firebase" }
+    ],
+    "sampling": { "events": { "screen_view": 1.0, "debug_log": 0.1 } },
+    "privacy": { "anonymizeIp": true, "respectDoNotTrack": true },
+    "eventMapping": {
+      "Sign Up": "user_signup",
+      "Purchase": "purchase_completed"
+    }
+  },
+  "payments": {
+    "currency": "USD",
+    "inAppPurchases": {
+      "ios": [
+        { "sku": "com.example.premium.monthly", "type": "subscription" },
+        { "sku": "com.example.coins.100", "type": "consumable" }
+      ],
+      "android": [
+        { "sku": "premium_monthly", "type": "subscription" },
+        { "sku": "coins_100", "type": "inapp" }
+      ]
+    },
+    "stripe": {
+      "publishableKey": "pk_live_...",
+      "merchantId": "merchant.com.example"
+    }
+  },
+  "deeplinks": {
+    "scheme": "example",
+    "host": "example.com",
+    "paths": {
+      "home": "/",
+      "profile": "/u/{username}",
+      "product": "/p/{id}"
+    },
+    "universalLinks": { "ios": "example.com", "android": "example.com" }
+  },
+  "updatePolicy": {
+    "minSupportedVersion": "2.1.0",
+    "softPromptVersion": "2.2.0",
+    "storeUrls": {
+      "ios": "https://apps.apple.com/app/id123456789",
+      "android": "https://play.google.com/store/apps/details?id=com.example.app"
+    }
+  },
+  "storage": {
+    "secureStorageKeys": ["auth.refreshToken", "auth.sessionToken"],
+    "kvPrefix": "exampleapp",
+    "encryption": { "enabled": true, "algorithm": "AES-256-GCM" }
+  },
+  "logging": {
+    "level": "info",
+    "remote": {
+      "enabled": true,
+      "sentryDsn": "https://key@o123.ingest.sentry.io/456"
+    },
+    "redactKeys": ["password", "cardNumber", "ssn"],
+    "sampleRate": 0.2
+  },
+  "security": {
+    "deviceChecks": { "blockJailbroken": true, "allowEmulator": false },
+    "certificatePinning": { "enabled": false, "certs": [] }
+  },
+  "experiments": [
+    {
+      "key": "onboarding_flow",
+      "variants": [
+        { "name": "control", "weight": 50 },
+        { "name": "short", "weight": 50 }
+      ],
+      "audience": { "minAppVersion": "2.0.0", "countries": ["US", "CA"] }
+    }
+  ],
+  "content": {
+    "onboarding": {
+      "slides": [
+        { "title": "Welcome", "asset": "onboarding/welcome.png" },
+        { "title": "Stay in sync", "asset": "onboarding/sync.png" }
+      ],
+      "videoUrl": "https://cdn.example.com/videos/intro.mp4"
+    },
+    "remoteCMS": {
+      "enabled": true,
+      "baseURL": "https://cms.example.com/api",
+      "apiKey": "CMS_PUBLIC_KEY"
+    }
+  },
+  "legal": {
+    "privacyPolicyUrl": "https://example.com/privacy",
+    "termsOfServiceUrl": "https://example.com/terms"
+  },
+  "accessibility": {
+    "dynamicType": { "enabled": true, "maxScale": 1.4 },
+    "reducedMotion": { "respectOSSetting": true }
+  },
+  "overrides": {
+    "staging": {
+      "environment": { "current": "staging" },
+      "network": {
+        "api": { "baseURL": "https://staging-api.example.com/v1" },
+        "websocket": { "url": "wss://staging-ws.example.com/socket" }
+      },
+      "analytics": {
+        "providers": [{ "name": "segment", "writeKey": "SEGMENT_STAGING_KEY" }],
+        "enabled": true
+      },
+      "logging": { "level": "debug", "remote": { "enabled": false } }
+    },
+    "development": {
+      "environment": { "current": "development" },
+      "network": {
+        "api": { "baseURL": "http://10.0.2.2:4000/v1" },
+        "websocket": { "url": "ws://10.0.2.2:4001/socket" }
+      },
+      "features": {
+        "inboxV2": { "enabled": true, "rollout": { "percentage": 100 } }
+      },
+      "analytics": { "enabled": false },
+      "updatePolicy": { "minSupportedVersion": "0.0.0" }
+    }
+  }
+}
